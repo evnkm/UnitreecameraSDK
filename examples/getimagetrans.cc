@@ -33,12 +33,10 @@ gateway 192.168.123.1
 #include <iostream>
 int main(int argc,char** argv)
 {
-    std::string IpLastSegment = "162";
-    int cam = 1;
+    int cam = 1; // 1:front 2:chin 3:left 4:right 5:abdomen
     if (argc>=2)
         cam = std::atoi(argv[1]);
-    std::string udpstrPrevData = "udpsrc address=192.168.123."+ IpLastSegment + " port=";
-    //端口：前方，下巴，左，右，腹部
+    std::string udpstrPrevData = "udpsrc address=192.168.123.162" + " port=";
 	std::array<int,5> udpPORT = std::array<int, 5>{9201, 9202, 9203, 9204, 9205};
     std::string udpstrBehindData = " ! application/x-rtp,media=video,encoding-name=H264 ! rtph264depay ! h264parse ! omxh264dec ! videoconvert ! appsink";
     std::string udpSendIntegratedPipe = udpstrPrevData +  std::to_string(udpPORT[cam-1]) + udpstrBehindData;
